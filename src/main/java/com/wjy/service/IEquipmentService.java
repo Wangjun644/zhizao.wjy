@@ -9,4 +9,6 @@ public interface IEquipmentService {
     Equipment getOne(Integer id);
 
     List<Equipment> getList(Equipment equipment);
+
+    void deleteById(Integer id);
 }

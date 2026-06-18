@@ -35,4 +35,9 @@ public class EquipmentServiceImpl implements IEquipmentService {
                         Equipment::getEquipmentName,equipmentName);
         return equipmentMapper.selectList(wrapper);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+
+    }
 }
