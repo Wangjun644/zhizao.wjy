@@ -38,6 +38,6 @@ public class EquipmentServiceImpl implements IEquipmentService {
 
     @Override
     public void deleteById(Integer id) {
-
+        equipmentMapper.deleteById(id);
     }
 }
