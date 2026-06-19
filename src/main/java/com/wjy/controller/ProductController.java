@@ -4,10 +4,9 @@ import com.wjy.domain.Product;
 import com.wjy.service.IProductService;
 import com.wjy.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/product")
@@ -23,6 +22,33 @@ public class ProductController {
         return R.success("查询成功",product);
     }
 
+
+
+    @PostMapping("/getList")
+    public R getList(@RequestBody Product product){
+        List<Product> list = productService.getList(product);
+        return R.success("查询成功",list);
+//        return R.success("查询成功",productService.getList(product));
+    }
+
+
+    @DeleteMapping("/{id}")
+    public R delete(@PathVariable Integer id){
+        productService.delete(id);
+        return R.success("删除成功");
+    }
+
+    @PostMapping("/add")
+    public R add(@RequestBody Product product){
+        productService.add(product);
+        return R.success("新增成功");
+    }
+
+    @PutMapping("/update")
+    public R update(@RequestBody Product product){
+        productService.update(product);
+        return R.success("修改成功");
+    }
 
 
 }

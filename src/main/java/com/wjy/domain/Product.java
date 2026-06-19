@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import java.time.LocalDateTime;
+
+
 
 @Data
 @TableName("t_product")
@@ -15,13 +18,13 @@ public class Product {
     private Integer flag;
 
     @TableField("create_time")
-    private Data createTime;
+    private LocalDateTime createTime;
 
     @TableField("create_userid")
     private Integer createUserid;
 
     @TableField("update_time")
-    private Data updateTime;
+    private LocalDateTime updateTime;
 
     @TableField("update_userid")
     private Integer updateUserid;
