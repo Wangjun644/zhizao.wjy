@@ -11,4 +11,8 @@ public interface IEquipmentService {
     List<Equipment> getList(Equipment equipment);
 
     void deleteById(Integer id);
+
+    void add(Equipment equipment);
+
+    void update(Equipment equipment);
 }

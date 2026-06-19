@@ -36,4 +36,16 @@ public class EquipmentController {
         return R.success("删除成功");
     }
 
+    @PostMapping("/add")
+    public R add(@RequestBody Equipment equipment){
+        equipmentService.add(equipment);
+        return R.success("新增成功");
+    }
+
+    @PostMapping
+    public R update(@RequestBody Equipment equipment){
+        equipmentService.update(equipment);
+        return R.success("修改成功");
+    }
+
 }

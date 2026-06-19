@@ -8,6 +8,7 @@ import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -39,5 +40,23 @@ public class EquipmentServiceImpl implements IEquipmentService {
     @Override
     public void deleteById(Integer id) {
         equipmentMapper.deleteById(id);
+    }
+
+    @Override
+    public void add(Equipment equipment) {
+        equipment.setCreateTime(new Date());
+        equipment.setCreateUserid(1);
+        equipmentMapper.insert(equipment);
+    }
+
+    @Override
+    public void update(Equipment equipment){
+        Integer id = equipment.getId();
+        if(id == null){
+            System.out.println("id为空");
+        }
+        equipment.setUpdateTime(new Date());
+        equipment.setUpdateUserid(1);
+        equipmentMapper.updateById(equipment);
     }
 }
