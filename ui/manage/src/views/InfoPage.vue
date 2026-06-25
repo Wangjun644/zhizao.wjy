@@ -7,7 +7,7 @@
             开机率
           </div>
           <div class="card-right">
-            <div class="card-num">{{ userCount }}</div>
+            <div class="card-num">{{ open }}%</div>
 
           </div>
         </div>
@@ -20,7 +20,7 @@
             故障率
           </div>
           <div class="card-right">
-            <div class="card-num">{{ songCount }}</div>
+            <div class="card-num">{{ fault }}%</div>
           </div>
         </div>
       </el-card>
@@ -32,7 +32,7 @@
             运行率
           </div>
           <div class="card-right">
-            <div class="card-num">{{ singerCount }}</div>
+            <div class="card-num">{{ run }}%</div>
           </div>
         </div>
       </el-card>
@@ -44,7 +44,7 @@
             综合率
           </div>
           <div class="card-right">
-            <div class="card-num">{{ songListCount }}</div>
+            <div class="card-num">{{ general }}%</div>
           </div>
         </div>
       </el-card>
@@ -53,28 +53,35 @@
   <el-row :gutter="20">
     <el-col :span="12">
       <h3>工厂订单信息</h3>
-      <el-card class="cav-info" shadow="hover" :body-style="{ padding: '0px' }" id="userSex"></el-card>
+      <el-card class="cav-info" shadow="hover" :body-style="{ padding: '0px' }" id="orderPie"></el-card>
     </el-col>
     <el-col :span="12">
       <h3>工厂订单信息</h3>
-      <el-card class="cav-info" shadow="hover" :body-style="{ padding: '0px' }" id="songStyle"></el-card>
+      <el-card class="cav-info" shadow="hover" :body-style="{ padding: '0px' }" id="orderBar"></el-card>
     </el-col>
   </el-row>
 
 </template>
 <script lang="ts" setup>
 // import { ref, reactive, getCurrentInstance } from "vue";
-import { ref, reactive } from "vue";
+import {ref, reactive, onMounted} from "vue";
 import * as echarts from "echarts";
 import { Mic, Document, User, Headset } from "@element-plus/icons-vue";
 import { HttpManager } from "@/api/index";
 
 // const { proxy } = getCurrentInstance();
-const userCount = ref(0);
-const songCount = ref(0);
-const singerCount = ref(0);
-const songListCount = ref(0);
-const userSex = reactive({
+const open = ref(0);
+const fault = ref(0);
+const run = ref(0);
+const general = ref(0);
+
+onMounted(async () =>{
+  //
+  const result = (await HttpManager.infoIndex()) as ResponseBody;
+  console.log(result)
+})
+
+const orderPie = reactive({
   series: [
     {
       type: "pie",
@@ -91,7 +98,7 @@ const userSex = reactive({
     },
   ],
 });
-const songStyle = reactive({
+const orderBar = reactive({
   xAxis: {
     type: "category",
     data: ["华语", "粤语", "欧美", "日韩", "BGM", "轻音乐", "乐器"],
@@ -103,48 +110,6 @@ const songStyle = reactive({
     {
       data: [0, 0, 0, 0, 0, 0, 0],
       type: "bar",
-      barWidth: "20%",
-    },
-  ],
-});
-const singerSex = reactive({
-  series: [
-    {
-      type: "pie",
-      data: [
-        {
-          value: 0,
-          name: "男",
-        },
-        {
-          value: 0,
-          name: "女",
-        },
-      ],
-    },
-  ],
-});
-const country = reactive({
-  xAxis: {
-    type: "category",
-    data: [
-      "中国",
-      "韩国",
-      "意大利",
-      "新加坡",
-      "美国",
-      // "马来西亚",
-      "西班牙",
-      "日本",
-    ],
-  },
-  yAxis: {
-    type: "value",
-  },
-  series: [
-    {
-      data: [0, 0, 0, 0, 0, 0, 0, 0],
-      type: "pie",
       barWidth: "20%",
     },
   ],

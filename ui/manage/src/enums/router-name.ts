@@ -11,5 +11,6 @@ export const enum RouterName {
   Error = "/404",
   SignIn = "/",
   SignOut = "0",
+  Register = "/register",
   Product = "/product",
 }
