@@ -59,4 +59,20 @@ public class EquipmentServiceImpl implements IEquipmentService {
         equipment.setUpdateUserid(1);
         equipmentMapper.updateById(equipment);
     }
+
+    @Override
+    public Long getCountByFactoryId(Integer factoryId) {
+        LambdaQueryWrapper<Equipment> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Equipment::getFactoryId, factoryId);
+        return equipmentMapper.selectCount(wrapper);
+    }
+
+
+    @Override
+    public Long getCountByStatusAndFactoryId(Integer status, Integer factoryId) {
+        LambdaQueryWrapper<Equipment> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Equipment::getEquipmentStatus, status);
+        wrapper.eq(Equipment::getFactoryId, factoryId);
+        return equipmentMapper.selectCount(wrapper);
+    }
 }

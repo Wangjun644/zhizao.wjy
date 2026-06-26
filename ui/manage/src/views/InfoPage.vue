@@ -8,7 +8,6 @@
           </div>
           <div class="card-right">
             <div class="card-num">{{ open }}%</div>
-
           </div>
         </div>
       </el-card>
@@ -79,36 +78,113 @@ onMounted(async () =>{
   //
   const result = (await HttpManager.infoIndex()) as ResponseBody;
   console.log(result)
+  open.value = result.data.open
+  fault.value = result.data.fault
+  run.value = result.data.run
+  general.value = result.data.general
+
+
+
+  //
+  let orderPieDOM = document.getElementById('orderPie');
+  //
+  let orderPieChart = echarts.init(orderPieDOM);
+  //
+  orderPieChart.setOption(orderPie)
+
+  //
+  let orderBarDOM = document.getElementById('orderBar');
+  //
+  let orderBarChart = echarts.init(orderBarDOM);
+  //
+  orderBarChart.setOption(orderBar)
 })
 
 const orderPie = reactive({
-  series: [
-    {
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    top: '5%',
+    left: 'center'
+  },
+  series: [{
+      name: 'Access From',
       type: "pie",
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2
+      },
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 40,
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: false
+      },
       data: [
         {
-          value: 0,
-          name: "男",
+          value: 5,
+          name: "待接单",
         },
         {
-          value: 0,
-          name: "女",
+          value: 2,
+          name: "生产中",
         },
-      ],
-    },
-  ],
-});
+        {
+          value: 3,
+          name: "已结单",
+        },
+        {
+          value: 10,
+          name: "已排产",
+        },
+        {
+          value: 1,
+          name: "已完成",
+        },
+      ]
+    }
+  ]
+})
+
 const orderBar = reactive({
-  xAxis: {
+
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [{
     type: "category",
-    data: ["华语", "粤语", "欧美", "日韩", "BGM", "轻音乐", "乐器"],
-  },
-  yAxis: {
+    data: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+    axisTick: {
+      alignWithLabel: true
+    }
+  }],
+  yAxis: [{
     type: "value",
-  },
+  }],
   series: [
     {
-      data: [0, 0, 0, 0, 0, 0, 0],
+      data: [0, 10, 40, 20, 80, 70, 60, 70, 10, 50, 0, 20],
       type: "bar",
       barWidth: "20%",
     },

@@ -15,4 +15,8 @@ public interface IEquipmentService {
     void add(Equipment equipment);
 
     void update(Equipment equipment);
+
+    Long getCountByFactoryId(Integer factoryId);
+
+    Long getCountByStatusAndFactoryId(Integer i, Integer factoryId);
 }
