@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wjy.domain.Equipment;
 import com.wjy.mapper.EquipmentMapper;
+import com.wjy.mapper.ProductOrderMapper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,13 @@ public class AppTest {
     @Autowired
     private EquipmentMapper equipmentMapper;
 
+    @Autowired
+    private ProductOrderMapper productOrderMapper;
+
     @Test
-    public void test() {
-        Equipment equipment = equipmentMapper.selectById(1);
-        System.out.println(equipment);
+    public void test0() {
+        Long count = productOrderMapper.getCountByYearAndMonth(2018,3);
+        System.out.println(count);
     }
 
 

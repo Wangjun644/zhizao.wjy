@@ -83,7 +83,11 @@ onMounted(async () =>{
   run.value = result.data.run
   general.value = result.data.general
   //pie.value = result.data.pie
+  //
   orderPie.series[0].data = result.data.pie
+
+  //
+  orderBar.series[0].data = result.data.bar
 
   //
   let orderPieDOM = document.getElementById('orderPie');
@@ -119,9 +123,6 @@ const orderPie = reactive({
           fontSize: 40,
           fontWeight: 'bold'
         }
-      },
-      labelLine: {
-        show: false
       },
       data: [
         {

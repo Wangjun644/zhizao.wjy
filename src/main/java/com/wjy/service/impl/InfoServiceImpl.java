@@ -5,6 +5,8 @@ import com.wjy.vo.InfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,10 +112,18 @@ public class InfoServiceImpl implements IInfoService {
         wc.put("value",wcCount);
         wc.put("name","订单完成");
         pie.add(wj);
-        pie.add(jj);
-        pie.add(yj);
         pie.add(sc);
+        pie.add(yj);
+        pie.add(jj);
         pie.add(wc);
+
+        //1.8
+        List<Long> orderMonth = new ArrayList<>();
+        Integer year = LocalDate.now().getYear();
+        for(int i = 1; i <= 12; i++) {
+            Long count = productOrderService.getCountByYearAndMonth(year, i);
+            orderMonth.add(count);
+        }
 
         //2、
         InfoVO infoVO = new InfoVO();
@@ -122,6 +132,7 @@ public class InfoServiceImpl implements IInfoService {
         infoVO.setFault(fault);
         infoVO.setRun(run);
         infoVO.setPie(pie);
+        infoVO.setBar(orderMonth);
         return infoVO;
     }
 }

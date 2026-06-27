@@ -7,6 +7,8 @@ import com.wjy.service.IProductOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductOrderServiceImpl implements IProductOrderService {
 
@@ -19,4 +21,16 @@ public class ProductOrderServiceImpl implements IProductOrderService {
         wrapper.eq(ProductOrder::getFactoryId, factoryId);
         return productOrderMapper.selectCount(wrapper);
     }
+
+    @Override
+    public Long getCountByYearAndMonth(Integer year, Integer month) {
+        return productOrderMapper.getCountByYearAndMonth(year, month);
+    }
+
+
+//    public List<Integer> getMonthData(Integer year, Integer month) {
+//        LambdaQueryWrapper<ProductOrder> wrapper = new LambdaQueryWrapper<>();
+//
+//
+//    }
 }

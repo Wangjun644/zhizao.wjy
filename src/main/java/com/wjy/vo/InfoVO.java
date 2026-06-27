@@ -18,4 +18,7 @@ public class InfoVO {
     private Integer general;
     //饼状图 数据
     private List<Object> pie = null;
+    //柱状图 数据
+    private List<Long> bar = null;
+
 }

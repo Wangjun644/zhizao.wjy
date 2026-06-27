@@ -6,4 +6,6 @@ public interface IProductOrderService {
 
 
     Long getCountByStatusAndFactoryId(int i, Integer factoryId);
+
+    Long getCountByYearAndMonth(Integer year, Integer month);
 }
