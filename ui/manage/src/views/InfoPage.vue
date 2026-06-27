@@ -82,8 +82,8 @@ onMounted(async () =>{
   fault.value = result.data.fault
   run.value = result.data.run
   general.value = result.data.general
-
-
+  //pie.value = result.data.pie
+  orderPie.series[0].data = result.data.pie
 
   //
   let orderPieDOM = document.getElementById('orderPie');
@@ -104,12 +104,7 @@ const orderPie = reactive({
   tooltip: {
     trigger: 'item'
   },
-  legend: {
-    top: '5%',
-    left: 'center'
-  },
   series: [{
-      name: 'Access From',
       type: "pie",
       radius: ['40%', '70%'],
       avoidLabelOverlap: false,
@@ -117,10 +112,6 @@ const orderPie = reactive({
         borderRadius: 10,
         borderColor: '#fff',
         borderWidth: 2
-      },
-      label: {
-        show: false,
-        position: 'center'
       },
       emphasis: {
         label: {
@@ -138,16 +129,16 @@ const orderPie = reactive({
           name: "待接单",
         },
         {
-          value: 2,
+          value: 0,
           name: "生产中",
         },
         {
           value: 3,
-          name: "已结单",
+          name: "已接单",
         },
         {
           value: 10,
-          name: "已排产",
+          name: "已拒绝",
         },
         {
           value: 1,

@@ -1,0 +1,22 @@
+package com.wjy.service.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.wjy.domain.ProductOrder;
+import com.wjy.mapper.ProductOrderMapper;
+import com.wjy.service.IProductOrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProductOrderServiceImpl implements IProductOrderService {
+
+    @Autowired
+    private ProductOrderMapper productOrderMapper;
+    @Override
+    public Long getCountByStatusAndFactoryId(int status, Integer factoryId) {
+        LambdaQueryWrapper<ProductOrder> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ProductOrder::getOrderStatus, status);
+        wrapper.eq(ProductOrder::getFactoryId, factoryId);
+        return productOrderMapper.selectCount(wrapper);
+    }
+}

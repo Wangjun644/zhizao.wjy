@@ -1,15 +1,21 @@
 package com.wjy.service.impl;
 
-import com.wjy.service.IEquipmentService;
-import com.wjy.service.IInfoService;
-import com.wjy.service.IProductScheduleService;
-import com.wjy.service.IProductService;
+import com.wjy.service.*;
 import com.wjy.vo.InfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class InfoServiceImpl implements IInfoService {
+
+
+
+
 
 
 
@@ -33,6 +39,9 @@ public class InfoServiceImpl implements IInfoService {
     //
     @Autowired
     private IProductScheduleService productScheduleService;
+    //
+    @Autowired
+    private IProductOrderService productOrderService;
 
     @Override
     public InfoVO getInfo(Integer factoryId) {
@@ -66,12 +75,53 @@ public class InfoServiceImpl implements IInfoService {
         if(equipmentStartCount != 0) {
             general = (int) (jgCount * 100 / equipmentStartCount);
         }
+
+
+        //1.7
+        //未接单
+        Long wjCount = productOrderService.getCountByStatusAndFactoryId(10, factoryId);
+        //已接单
+        Long jjCount = productOrderService.getCountByStatusAndFactoryId(20, factoryId);
+        //已拒绝
+        Long yjCount = productOrderService.getCountByStatusAndFactoryId(30, factoryId);
+        //生产中
+        Long scCount = productOrderService.getCountByStatusAndFactoryId(40, factoryId);
+        //订单完成
+        Long wcCount = productOrderService.getCountByStatusAndFactoryId(50, factoryId);
+        List<Object> pie = new ArrayList<>();
+        Map<String,Object> wj = new HashMap<>();
+        //
+        wj.put("value",wjCount);
+        wj.put("name","待接单");
+        //
+        Map<String,Object> jj = new HashMap<>();
+        jj.put("value",jjCount);
+        jj.put("name","已接单");
+        //
+        Map<String,Object> yj = new HashMap<>();
+        yj.put("value",yjCount);
+        yj.put("name","已拒绝");
+        //
+        Map<String,Object> sc = new HashMap<>();
+        sc.put("value",scCount);
+        sc.put("name","生产中");
+        //
+        Map<String,Object> wc = new HashMap<>();
+        wc.put("value",wcCount);
+        wc.put("name","订单完成");
+        pie.add(wj);
+        pie.add(jj);
+        pie.add(yj);
+        pie.add(sc);
+        pie.add(wc);
+
         //2、
         InfoVO infoVO = new InfoVO();
         infoVO.setGeneral(general);
         infoVO.setOpen(open);
         infoVO.setFault(fault);
         infoVO.setRun(run);
+        infoVO.setPie(pie);
         return infoVO;
     }
 }

@@ -2,6 +2,10 @@ package com.wjy.vo;
 
 import lombok.Data;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Data
 public class InfoVO {
     //开机率
@@ -12,4 +16,6 @@ public class InfoVO {
     private Integer run;
     //综合率
     private Integer general;
+    //饼状图 数据
+    private List<Object> pie = null;
 }
