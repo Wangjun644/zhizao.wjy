@@ -1,9 +1,13 @@
-# 忽略 ui/manage 目录
-ui/
-ui/manage/
+# 忽略根目录的 node_modules
+node_modules/
+
+# 忽略 ui/node_modules 目录
+ui/manage/dist/
+ui/manage/node_modules/
 
 # 编译输出
 target/
+dist/
 build/
 
 # 日志文件
@@ -15,7 +19,6 @@ hs_err_pid*
 *.iml
 
 # 前端依赖
-node_modules/
 package-lock.json
 package.json
 

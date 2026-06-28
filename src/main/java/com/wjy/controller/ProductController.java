@@ -1,6 +1,8 @@
 package com.wjy.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wjy.domain.Product;
+import com.wjy.query.ProductQuery;
 import com.wjy.service.IProductService;
 import com.wjy.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +52,10 @@ public class ProductController {
         return R.success("修改成功");
     }
 
-
+    @PostMapping("/getPage")
+    public R getPage(@RequestBody ProductQuery query) {
+        //
+        IPage<Product> page = productService.getPage(query);
+        return R.success("查询成功", page);
+    }
 }
