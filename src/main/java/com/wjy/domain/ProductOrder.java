@@ -15,10 +15,10 @@ public class ProductOrder {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer flag;
-    @TableField("creat_time")
+    @TableField("create_time")
     private Date createTime;
-    @TableField("creat_userid")
-    private Integer creatUserid;
+    @TableField("create_userid")
+    private Integer createUserid;
     @TableField("update_time")
     private Date updateTime;
     @TableField("update_userid")

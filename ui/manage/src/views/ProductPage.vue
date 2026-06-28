@@ -4,6 +4,7 @@
       {{ item.name }}
     </el-breadcrumb-item>
   </el-breadcrumb>
+
   <div class="container">
     <div class="handle-box" style="width: 60%">
       <el-button @click="deleteAll">批量删除</el-button>
@@ -15,14 +16,27 @@
     <el-table height="550px" border size="small" :data="tableData" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40" align="center"></el-table-column>
       <el-table-column label="ID" prop="id" width="50" align="center"></el-table-column>
-      <el-table-column label="有效标识" width="70" prop="flag"></el-table-column>
+      <el-table-column label="有效标识" width="70" prop="flag">
+        <template v-slot="scope">
+          <p v-if="scope.row.flag == 0">
+          有效
+          </p>
+          <p v-if="scope.row.flag == 1">
+          无效
+          </p>
+        </template>
+      </el-table-column>
       <el-table-column label="创建时间" prop="createTime"></el-table-column>
       <el-table-column label="创建人ID" width="50" prop="createUserid"></el-table-column>
       <el-table-column label="修改时间" prop="updateTime"></el-table-column>
       <el-table-column label="修改人ID" width="50" prop="updateUserid"></el-table-column>
       <el-table-column label="产品编号" prop="productNum"></el-table-column>
       <el-table-column label="产品名称" prop="productName"></el-table-column>
-      <el-table-column label="产品图片" prop="productImgUrl"></el-table-column>
+      <el-table-column label="产品图片" prop="productImgUrl">
+        <template v-slot="scope">
+          <img :src="scope.row.productImgUrl" style = "width: 100%" />
+        </template>
+      </el-table-column>
       <el-table-column label="工厂ID" width="60" prop="factoryId"></el-table-column>
       <el-table-column label="操作" width="90" align="center">
         <template v-slot="scope">
@@ -219,10 +233,16 @@ const delVisible = ref(false); // 显示删除框
 
 async function confirm() {
   //调用删除接口
+  const result = (await HttpManager.deleteProduct(idx.value)) as ResponseBody;
   //提示信息
+  ElMessage({
+    showClose: true,
+    message: result.message,
+    type: 'warning',
+  })
   //刷新表格
+  getData()
   //隐藏新增层
-
   delVisible.value = false;
 }
 function deleteRow(id) {
@@ -237,7 +257,7 @@ function deleteAll() {
     deleteRow(item.id);
     confirm();
   }
-  multipleSelection.value = [] ;
+  multipleSelection.value = [];
 }
 
 
@@ -272,25 +292,6 @@ async function saveEdit() {
 }
 
 
-
-
-// return {
-//   searchWord,
-//   tableData,
-//   delVisible,
-//   centerDialogVisible,
-//   registerForm,
-//   breadcrumbList,
-//   deleteAll,
-//   handleSelectionChange,
-//   deleteRow,
-//   confirm,
-//   addProduct,
-//   editRow,
-//   editVisible,
-//   editForm,
-//   saveEdit,
-// };
 </script>
 
-<!--<style scoped></style>-->
+<style scoped></style>

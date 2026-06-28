@@ -27,8 +27,9 @@ const HttpManager = {
     //
     getProductPage: ({productName, productNum, pageSize, currentPage}) => post('product/getPage',
         {productName, productNum, pageSize, currentPage}
-    )
-
+    ),
+    //
+    deleteProduct: (id) => deletes (`product/${id}`),
 }
 
 export {HttpManager}

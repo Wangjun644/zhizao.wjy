@@ -5,7 +5,16 @@ spring:
     username: root
     password: 123456
     url: jdbc:mysql://localhost:3306/db_factory?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-#日志追踪   com.dz 改成自己的包名
+  #
+  jackson:
+    #
+    date-format: yyyy-MM-dd HH:mm:ss
+    #
+    time-zone: Asia/Shanghai
+    serialization:
+      #
+      write-dates-as-timestamps: false
+      #日志追踪   com.dz 改成自己的包名
 logging:
   level:
     com.wjy: trace

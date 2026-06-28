@@ -33,11 +33,17 @@ public class ProductController {
 //        return R.success("查询成功",productService.getList(product));
     }
 
-
     @DeleteMapping("/{id}")
     public R delete(@PathVariable Integer id){
-        productService.delete(id);
-        return R.success("删除成功");
+        //
+        try{
+            productService.delete(id);
+            return R.success("删除成功");
+        }catch (Exception e){
+            String message = e.getMessage();
+            e.printStackTrace();
+            return R.fail(message);
+        }
     }
 
     @PostMapping("/add")

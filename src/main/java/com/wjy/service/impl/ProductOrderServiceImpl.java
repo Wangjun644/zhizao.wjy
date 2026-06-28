@@ -27,6 +27,16 @@ public class ProductOrderServiceImpl implements IProductOrderService {
         return productOrderMapper.getCountByYearAndMonth(year, month);
     }
 
+    @Override
+    public List<ProductOrder> getByProductIdAndStatus(Integer productId, Integer status) {
+        LambdaQueryWrapper<ProductOrder> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ProductOrder::getOrderStatus, status);
+        wrapper.eq(ProductOrder::getProductId, productId);
+        productOrderMapper.selectList(wrapper);
+        return productOrderMapper.selectList(wrapper);
+
+    }
+
 
 //    public List<Integer> getMonthData(Integer year, Integer month) {
 //        LambdaQueryWrapper<ProductOrder> wrapper = new LambdaQueryWrapper<>();
