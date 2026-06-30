@@ -34,7 +34,7 @@
       <el-table-column label="产品名称" prop="productName"></el-table-column>
       <el-table-column label="产品图片" prop="productImgUrl">
         <template v-slot="scope">
-          <img :src="scope.row.productImgUrl" style = "width: 100%" />
+          <img :src="HttpManager.attachImageUrl(scope.row.productImgUrl)" style = "width: 100%" />
         </template>
       </el-table-column>
       <el-table-column label="工厂ID" width="60" prop="factoryId"></el-table-column>
@@ -58,22 +58,22 @@
 
   <!--添加产品-->
   <el-dialog title="添加产品" v-model="centerDialogVisible">
-    <el-form id="add-product" label-width="80px" :model="registerForm">
+    <el-form id="add-product" label-width="80px" :model="productForm">
 
       <el-form-item label="有效标识" >
-        <el-radio-group v-model="registerForm.flag"  >
+        <el-radio-group v-model="productForm.flag"  >
           <el-radio name="flag" :label="0">有效</el-radio>
           <el-radio name="flag" :label="1">无效</el-radio>
         </el-radio-group>
       </el-form-item>
 
       <el-form-item prop="productNum" label="产品编号">
-        <el-input name="productNum" v-model="registerForm.productNum"></el-input>
+        <el-input name="productNum" v-model="productForm.productNum"></el-input>
       </el-form-item>
       <el-form-item prop="productName" label="产品名称">
-        <el-input name="productName" v-model="registerForm.productName"></el-input>
+        <el-input name="productName" v-model="productForm.productName"></el-input>
       </el-form-item>
-      <el-form-item label="产品图片上传">
+      <el-form-item label="图片上传">
         <input type="file" name="file" id="file" />
       </el-form-item>
 
@@ -190,7 +190,7 @@ async function getData() {
  * 添加
  */
 const centerDialogVisible = ref(false);
-const registerForm = reactive({
+const productForm = reactive({
   flag: "",
   productNum: "",
   productName: "",
@@ -202,19 +202,19 @@ const registerForm = reactive({
 async function addProduct() {
   // 组装 FormData
   const addProductForm = new FormData(document.getElementById("add-product") as HTMLFormElement);
-  const res = await axios.post(HttpManager.attachImageUrl(`equ/add`),
+  const res = await axios.post(HttpManager.attachImageUrl(`product/add`),
       addProductForm, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    },
-  })
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+      })
   console.log(res)
   ElMessage.success('提交成功')
   //3、清空新增表单
-  registerForm.flag = ""
-  registerForm.productNum = ""
-  registerForm.productName = ""
-  registerForm.factoryId = ""
+  productForm.flag = ""
+  productForm.productNum = ""
+  productForm.productName = ""
+  productForm.factoryId = ""
   document.getElementById("file").outerHTML = document.getElementById("file").outerHTML
 
   //4、关闭添加层
@@ -279,16 +279,26 @@ function editRow(row) {
   editForm.flag = row.flag;
   editForm.productNum = row.productNum;
   editForm.productName = row.productName;
-  editForm.factoryId = row.factoryId;
   editVisible.value = true;
 }
 
 async function saveEdit() {
+  let id = editForm.id;
+  let flag = editForm.flag;
+  let productNum = editForm.productNum;
+  let productName = editForm. productName;
   //请求修改接口
+  const result = (await HttpManager.updateProduct({id, flag, productNum, productName})) as ResponseBode;
   //提示信息
+  ElMessage({
+    showClose: true,
+    message: result.message,
+    type:'warning',
+  })
   //刷新表数据
+  getData()
   //隐藏修改表单
-
+  editVisible.value = false
 }
 
 

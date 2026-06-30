@@ -1,5 +1,7 @@
 package com.wjy.config;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -16,11 +18,21 @@ public class JacksonConfig {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer() {
         return builder -> {
-            // 配置 LocalDateTime 的序列化和反序列化格式
-            builder.serializers(new LocalDateTimeSerializer(
-                    DateTimeFormatter.ofPattern(DATE_TIME_PATTERN)));
-            builder.deserializers(new LocalDateTimeDeserializer(
-                    DateTimeFormatter.ofPattern(DATE_TIME_PATTERN)));
+            // 关键：禁用时间戳输出，强制使用字符串格式
+            builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+            // 注册 JavaTimeModule 并配置 LocalDateTime 格式
+            JavaTimeModule javaTimeModule = new JavaTimeModule();
+            javaTimeModule.addSerializer(
+                    java.time.LocalDateTime.class,
+                    new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN))
+            );
+            javaTimeModule.addDeserializer(
+                    java.time.LocalDateTime.class,
+                    new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN))
+            );
+
+            builder.modules(javaTimeModule);
         };
     }
 }

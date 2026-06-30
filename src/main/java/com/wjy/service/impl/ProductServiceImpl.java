@@ -5,14 +5,22 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wjy.domain.Product;
 import com.wjy.domain.ProductOrder;
+import com.wjy.domain.User;
 import com.wjy.mapper.ProductMapper;
 import com.wjy.query.ProductQuery;
 import com.wjy.service.IProductOrderService;
 import com.wjy.service.IProductService;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 //import org.springframework.util.StringUtils;  // ← Spring 自带的
 import org.junit.platform.commons.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpSession;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 
 import java.util.List;
@@ -58,16 +66,32 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public void add(Product product) {
-        product.setCreateTime(LocalDateTime.now());
-        product.setCreateUserid(1);
-        productMapper.insert(product);
+    public void add(Product product, MultipartFile file, User user) {
+        //
+        //
+        try {
+            InputStream in = file.getInputStream();
+            String name = file.getOriginalFilename();
+            //
+            String ASSETS_PATH = System.getProperty("user.dir");
+            String filePath = ASSETS_PATH + "/upload/" + name;
+            FileOutputStream out = new FileOutputStream(filePath);
+            IOUtils.copy(in, out);
+            //
+            product.setCreateTime(LocalDateTime.now());
+            product.setFactoryId(user.getFactoryId());
+            product.setCreateUserid(user.getId());
+            product.setProductImgUrl("/upload/" + name);
+            productMapper.insert(product);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void update(Product product) {
+    public void update(Product product, User user) {
         product.setUpdateTime(LocalDateTime.now());
-        product.setUpdateUserid(1);
+        product.setUpdateUserid(user.getId());
         productMapper.updateById(product);
     }
 

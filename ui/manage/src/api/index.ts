@@ -1,4 +1,4 @@
-import {deletes, get, getBaseURL, post} from './request'
+import {deletes, get, getBaseURL, post, put} from './request'
 
 const HttpManager = {
     // 获取图片信息
@@ -30,6 +30,9 @@ const HttpManager = {
     ),
     //
     deleteProduct: (id) => deletes (`product/${id}`),
+    //
+    updateProduct: ({id, flag, productNum, productName}) => put (`product/update`, {id, flag, productNum, productName}),
+
 }
 
 export {HttpManager}

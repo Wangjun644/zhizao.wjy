@@ -2,12 +2,15 @@ package com.wjy.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wjy.domain.Product;
+import com.wjy.domain.User;
 import com.wjy.query.ProductQuery;
 import com.wjy.service.IProductService;
 import com.wjy.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -46,15 +49,28 @@ public class ProductController {
         }
     }
 
+//    @PostMapping("/add")
+//    public R add(@RequestBody Product product){
+//        productService.add(product);
+//        return R.success("新增成功");
+//    }
+
     @PostMapping("/add")
-    public R add(@RequestBody Product product){
-        productService.add(product);
+    public R add(Product product, @RequestParam("file") MultipartFile file, HttpSession session){
+        //
+        User user = (User)session.getAttribute("user");
+        productService.add(product, file, user);
+//        System.out.println(product);
+//        System.out.println(file);
+//        System.out.println(file.getOriginalFilename());
         return R.success("新增成功");
     }
 
     @PutMapping("/update")
-    public R update(@RequestBody Product product){
-        productService.update(product);
+    public R update(@RequestBody Product product, HttpSession session){
+        User user = (User)session.getAttribute("user");
+        //
+        productService.update(product, user);
         return R.success("修改成功");
     }
 
