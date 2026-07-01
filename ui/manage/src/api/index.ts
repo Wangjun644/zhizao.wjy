@@ -5,6 +5,7 @@ const HttpManager = {
     attachImageUrl: (url) => `${getBaseURL()}/${url}`,
     // =======================> 管理员 API 完成
     // 是否登录成功
+    /****************************登录模块*****************************/
     userLogin: ({userName, userPasswd}) => post(`user/login`, {
         userName,
         userPasswd
@@ -18,7 +19,7 @@ const HttpManager = {
     }),
     //
     infoIndex:() =>get('info/index'),
-
+    /****************************产品模块*****************************/
     //
     getAllProduct: ({productName, productNum}) => post('product/getList',
         {productName, productNum}
@@ -32,7 +33,11 @@ const HttpManager = {
     deleteProduct: (id) => deletes (`product/${id}`),
     //
     updateProduct: ({id, flag, productNum, productName}) => put (`product/update`, {id, flag, productNum, productName}),
-
+    /******************************设备模块***************************/
+    //
+    getEquPage: ({equName, pageSize, currentPage}) => post('equ/getPage',
+        {equName, pageSize, currentPage}
+    ),
 }
 
 export {HttpManager}

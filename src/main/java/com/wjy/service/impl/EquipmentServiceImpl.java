@@ -1,8 +1,12 @@
 package com.wjy.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wjy.domain.Equipment;
+import com.wjy.domain.Product;
 import com.wjy.mapper.EquipmentMapper;
+import com.wjy.query.EquQuery;
 import com.wjy.service.IEquipmentService;
 import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,4 +79,25 @@ public class EquipmentServiceImpl implements IEquipmentService {
         wrapper.eq(Equipment::getFactoryId, factoryId);
         return equipmentMapper.selectCount(wrapper);
     }
+
+    @Override
+    public IPage<Equipment> getPage(EquQuery query) {
+//        String productName = query.getProductName();
+        String equName = query.getEquName();
+
+        //
+        LambdaQueryWrapper<Equipment> wrapper = new LambdaQueryWrapper<>();
+        //
+        wrapper.like(StringUtils.isNotBlank(equName),
+                Equipment::getEquipmentName,equName);
+        //
+        //
+        IPage<Equipment> page = new Page<>();
+        page.setCurrent(query.getCurrentPage());
+        page.setSize(query.getPageSize());
+
+        IPage<Equipment> productIPage = equipmentMapper.selectPage(page, wrapper);
+        return productIPage;
+    }
 }
+

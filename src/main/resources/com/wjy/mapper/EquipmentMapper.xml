@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 必须是全类名 -->
+<mapper namespace="com.wjy.mapper.EquipmentMapper">
+
+    <select id="getPage" resultType="com.wjy.domain.Equipment">
+
+    </select>
+    <select id="getPage" resultType="com.wjy.domain.Equipment"></select>
+</mapper>

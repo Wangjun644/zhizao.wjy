@@ -15,7 +15,12 @@ const routes: Array<RouteRecordRaw> = [
         path: '/product',
         component: () => import('@/views/ProductPage.vue'),
         meta: { title: 'product' }
-      }
+      },
+      {
+        path: '/equ',
+        component: () => import('@/views/EquPage.vue'),
+        meta: { title: 'equ' }
+      },
     ]
   },
   {

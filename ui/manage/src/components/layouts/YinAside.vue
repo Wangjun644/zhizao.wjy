@@ -20,7 +20,7 @@
         <el-icon><Promotion /></el-icon>
         <span>产品管理</span>
       </el-menu-item>
-      <el-menu-item index="songList">
+      <el-menu-item index="equ">
         <el-icon><Odometer /></el-icon>
         <span>设备管理</span>
       </el-menu-item>

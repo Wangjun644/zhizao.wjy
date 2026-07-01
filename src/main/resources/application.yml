@@ -4,7 +4,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/db_factory?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/db_factory?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
